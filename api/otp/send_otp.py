@@ -32,7 +32,7 @@ class OTPCode:
         code = str(random.randint(100000, 999999))
         send_func = getattr(cls, f"send_by_{type_}")
         asyncio.create_task(send_func(user_login, code, **kwargs))
-        return code
+        return int(code)
 
     @classmethod
     @retry(

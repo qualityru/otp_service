@@ -39,4 +39,4 @@ class SendOtpRequest(BaseModel):
 
 class SendOtpResponse(BaseModel):
     status: Literal["ok", "error"]
-    detail: str | None = None
+    otp_code: int | None = None

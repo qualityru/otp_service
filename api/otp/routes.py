@@ -8,7 +8,7 @@ router = APIRouter(prefix="/otp", tags=["otp"])
 @router.post("/send", response_model=SendOtpResponse)
 async def send_otp(data: SendOtpRequest):
     try:
-        await OTPCode.send(data.provider, data.target)
+        code = await OTPCode.send(data.provider, data.target)
     except Exception as exc:
-        return SendOtpResponse(status="error", detail=str(exc))
-    return SendOtpResponse(status="ok")
+        return SendOtpResponse(status="error")
+    return SendOtpResponse(status="ok", otp_code=code)
