@@ -10,6 +10,8 @@ ENV_PATH = BASE_DIR / "./.env"
 class Settings(BaseSettings):
     model_config = SettingsConfigDict(env_file=ENV_PATH)
 
+    CODE_LENGHT: str = Field("6", env="CODE_LENGHT")
+
     WHATSAPP_NUMBER_ID: str = Field(..., env="WHATSAPP_NUMBER_ID")
     WHATSAPP_TOKEN: str = Field(..., env="WHATSAPP_TOKEN")
     OTP_TEMPLATE: str = Field("only_otp_code", env="OTP_TEMPLATE")

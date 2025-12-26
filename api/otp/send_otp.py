@@ -26,10 +26,14 @@ class OTPCode:
     smtp_port = 465
     from_email = settings.SMTP_LOGIN
     from_password = settings.SMTP_PASSWORD
+    code_length = int(settings.CODE_LENGHT)
 
     @classmethod
     async def send(cls, type_, user_login, **kwargs):
-        code = str(random.randint(100000, 999999))
+        min_val = 10**(cls.code_length - 1)
+        max_val = (10**cls.code_length) - 1
+
+        code = str(random.randint(min_val, max_val))
         send_func = getattr(cls, f"send_by_{type_}")
         asyncio.create_task(send_func(user_login, code, **kwargs))
         return int(code)
@@ -127,3 +131,7 @@ class OTPCode:
                 return code
         except Exception as e:
             logger.error(f"Failed to send email: {e}")
+
+
+if __name__ == "__main__":
+    asyncio.run(OTPCode.send("email", "email@gmail.com"))
